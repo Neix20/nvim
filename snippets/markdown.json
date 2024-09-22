@@ -1,0 +1,28 @@
+{
+    "API Documentation": {
+        "prefix": [
+            "api_documentation"
+        ],
+        "body": [
+            "## ${title}",
+            "",
+            "- URL: `${url}`",
+            "",
+            "### Headers",
+            "",
+            "```yaml",
+            "```",
+            "",
+            "### Request",
+            "",
+            "```json",
+            "```",
+            "",
+            "### Response",
+            "",
+            "```json",
+            "```"
+        ],
+        "description": "Generate Simple API Documentation"
+    }
+}

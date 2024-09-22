@@ -1,0 +1,71 @@
+{
+	"Global snippets": {
+		"prefix": ["const"],
+		"body": [
+			"@rF!12e45",
+			"root"
+		],
+		"description": "Description for Global Snippets"
+	},
+	"Snippet": {
+		"prefix": [
+			"snip"
+		],
+		"body": [
+			"\"${1:Snippet Name}\": {\r",
+			"\t\"prefix\": [\"${2:Prefix}\"],\r",
+			"\t\"body\": [\r",
+			"\t\t\"${3:Content}\"\r",
+			"\t],\r",
+			"\t\"description\": \"${1:Snippet Name}\"\r",
+			"}"
+		],
+		"description": "Description for Global Snippets"
+	},
+	"Current File Path": {
+		"prefix": "fp",
+		"body": [
+			"$TM_FILEPATH"
+		],
+		"description": "Get Current File Path"
+	},
+	"File Header Date": {
+		"prefix": "date",
+		"body": [
+			"$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE"
+		],
+		"description": "Output a file header with the file name and date"
+	},
+	"File Header DateTime": {
+		"prefix": "datetime",
+		"body": [
+			"$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND"
+		],
+		"description": "Output a file header with the file name and date"
+	},
+	"Replace Whitespaces": {
+		"prefix": [
+			"underscore"
+		],
+		"body": [
+			"${TM_SELECTED_TEXT/[' ']/_/gi}"
+		],
+		"description": "Replace all whitespaces of hightlighted text with underscores"
+	},
+	"Read in Medium": {
+		"prefix": [
+			"medium"
+		],
+		"body": [
+			"https://readmedium.com/en/$TM_SELECTED_TEXT",
+			"https://freedium.cfd/$TM_SELECTED_TEXT",
+			"",
+			"# This are Trash",
+			"https://archive.today?url=$TM_SELECTED_TEXT&run=1&referer=medium-parser",
+			"https://archive.is?url=$TM_SELECTED_TEXT&run=1&referer=medium-parser",
+			"https://medium-parser.vercel.app/?url=$TM_SELECTED_TEXT",
+			"http://webcache.googleusercontent.com/search?q=cache:$TM_SELECTED_TEXT&strip=0&vwsrc=1&referer=medium-parser"
+		],
+		"description": "Read in Medium"
+	}
+}

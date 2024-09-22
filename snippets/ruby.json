@@ -1,0 +1,12 @@
+{
+	"Fastlane Add Commands": {
+		"prefix": "init",
+		"body": [
+			"    desc \"${1:Description}\"",
+			"    lane :${2:CmdName} do ",
+			"        ${3:CmdList}",
+			"    end"
+		],
+		"description": "description for init"
+	}
+}

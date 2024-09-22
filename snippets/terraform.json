@@ -1,0 +1,119 @@
+{
+	"Starter": {
+		"prefix": "init",
+		"body": [
+			"terraform {",
+			"  required_providers {",
+			"    $provider_name = {",
+			"      source = \"kreuzwerker/$provider_name\"",
+			"    }",
+			"  }",
+			"}",
+			"",
+			"provider \"$provider_name\" {}"
+		],
+		"description": "Basic Configuration for Terraform"
+	},
+	"Initialize Azure Provider": {
+		"prefix": "init_azure",
+		"body": [
+			"terraform {",
+			"  required_providers {",
+			"    azurerm = {",
+			"      source = \"hashicorp/azurerm\"",
+			"    }",
+			"  }",
+			"}",
+			"",
+			"provider \"azurerm\" {",
+			"  features {}",
+			"}"
+		],
+		"description": "Initialize Azure"
+	},
+	"Initialize AWS": {
+		"prefix": "init_aws",
+		"body": [
+			"terraform {",
+			"  required_providers {",
+			"    aws = {",
+			"      source  = \"hashicorp/aws\"",
+			"    }",
+			"  }",
+			"}",
+			"",
+			"provider \"aws\" {",
+			"}"
+		],
+		"description": "Initialize AWS"
+	},
+	"Initialize Google Cloud": {
+		"prefix": "init_gc",
+		"body": [
+			"terraform {",
+			" required_providers {",
+			"   google = {",
+			"     source = \"hashicorp/google\"",
+			"     version = \"5.3.0\"",
+			"   }",
+			" }",
+			"}",
+			"",
+			"provider \"google\" {",
+			" # Configuration options",
+			"}"
+		],
+		"description": "Initialize Google Cloud"
+	},
+	"Initialize Kubernetes": {
+		"prefix": "init_kube",
+		"body": [
+			"terraform {",
+			" required_providers {",
+			"   kubernetes = {",
+			"     source = \"hashicorp/kubernetes\"",
+			"     version = \"2.23.0\"",
+			"   }",
+			" }",
+			"}",
+			"",
+			"provider \"kubernetes\" {",
+			" # Configuration options",
+			"}"
+		],
+		"description": "Initialize Kubernetes"
+	},
+	"Initialize Alibaba": {
+		"prefix": "init_ali",
+		"body": [
+			"terraform {",
+			" required_providers {",
+			"   alicloud = {",
+			"     source = \"aliyun/alicloud\"",
+			"     version = \"1.211.2\"",
+			"   }",
+			" }",
+			"}",
+			"",
+			"provider \"alicloud\" {",
+			" # Configuration options",
+			"}"
+		],
+		"description": "Initialize Alibaba"
+	},
+	"Docker Provider": {
+		"prefix": "init_docker",
+		"body": [
+			"terraform {",
+			"  required_providers {",
+			"    docker = {",
+			"      source = \"kreuzwerker/docker\"",
+			"    }",
+			"  }",
+			"}",
+			"",
+			"provider \"docker\" {}"
+		],
+		"description": "Docker Provider"
+	}
+}

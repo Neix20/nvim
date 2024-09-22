@@ -1,0 +1,51 @@
+{
+	// Place your snippets for dockerfile here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// },
+	"DockerFile Initialization": {
+		"prefix": "init",
+		"body": ["FROM node:16",
+		"",
+		"# Create app directory",
+		"WORKDIR /usr/src/app",
+		"",
+		"# Install app dependencies",
+		"# A wildcard is used to ensure both package.json AND package-lock.json are copied where available (npm@5+)",
+		"COPY package.json ./",
+		"",
+		"RUN yarn install",
+		"# If you are building your code for production",
+		"# RUN npm ci --only=production",
+		"",
+		"# Bundle app source",
+		"COPY . .",
+		"",
+		"EXPOSE 6969",
+		"",
+		"CMD [ \"npm\", \"run\", \"start\" ]"
+		],
+		"description": "DockerFile Initialization"
+	},
+	"Nginx Example": {
+		"prefix": "nginx",
+		"body": [
+			"FROM nginx:latest",
+			"",
+			"# Replace Web Config",
+			"COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf",
+			"",
+			"COPY dist/  /usr/share/nginx/html/"
+		],
+		"description": "Build from Nginx"
+	}
+}

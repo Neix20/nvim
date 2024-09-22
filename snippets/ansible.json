@@ -1,0 +1,237 @@
+{
+	"Starter": {
+		"prefix": ["playbook", "starter", "init"],
+		"body": [
+			"---",
+			"- name: ${playbook_name}",
+			"  hosts: ${host_name}",
+			"  gather_facts: True",
+			"  become: False",
+			"  vars: []",
+			"  roles: ",
+			"  tasks: "
+		],
+		"description": "Starter Playbook"
+	},
+	"Ansible Copy Snippet": {
+		"prefix": ["copy_directory", "copy_file"],
+		"body": [
+			"- name: ${1:task_description}",
+			"  copy:",
+			"    src: ${2:/path/to/source}",
+			"    dest: ${3:/path/to/destination}"
+		],
+		"description": "Ansible Copy Snippet"
+	},
+	"Delete File Or Directory": {
+		"prefix": ["delete_file", "delete_directory"],
+		"body": [
+			"- name: ${1:task_description}",
+			"  file:",
+			"    path: ${2:/path/to/file_or_directory}",
+			"    state: absent"
+		],
+		"description": "Delete Or Remove Directory"
+	},
+	"Create Directory": {
+		"prefix": "create_directory",
+		"body": [
+			"- name: ${1:task_description}",
+			"  file:",
+			"    path: ${2:/path/to/directory}",
+			"    state: directory"
+		],
+		"description": "Create New Directory"
+	},
+	"Change File or Folder Permission": {
+		"prefix": "chmod",
+		"body": [
+			"- name: ${1:task_description}",
+			"  file:",
+			"    path: ${2:/path/to/file}",
+			"    mode: '0755'"
+		],
+		"description": "Change File or Directory Permission"
+	},
+	"Create New File": {
+		"prefix": "create_file",
+		"body": [
+			"- name: ${1:task_description}",
+			"  file:",
+			"    path: ${2:/path/to/myfile.txt}",
+			"    state: touch"
+		],
+		"description": "Create New File"
+	},
+	"CURL Url": {
+		"prefix": "curl",
+		"body": [
+			"- name: ${1:task_description}",
+			"  uri:",
+			"    url: ${2:url}",
+			"    return_content: yes",
+			"  register: ${3:debug_variable}",
+			"- name: ${4:task_description}",
+			"  debug:",
+			"    var: ${3:debug_variable}"
+		],
+		"description": "CURL Url"
+	},
+	"Unzip file": {
+		"prefix": "unzip",
+		"body": [
+			"- name: ${1:task_description}",
+			"  # Comment",
+			"  unarchive:",
+			"    src: ${2:/path/to/source}",
+			"    dest: ${3:/path/to/destination}"
+		],
+		"description": "Unzip File"
+	},
+	"Debug List of Running Process": {
+		"prefix": ["ps"],
+		"body": [
+			"- name: ${1:task_description}",
+			"  shell: ps aux | grep ${2:process_name}",
+			"  register: process_list",
+			"- debug:",
+			"    var: process_list.stdout"
+		],
+		"description": "Debug list of running process"
+	},
+	"Check Service Status": {
+		"prefix": ["systemctl"],
+		"body": [
+			"- name: ${1:task_description}",
+			"  service:",
+			"    - name: ${2:service_name}",
+			"    state: started"
+		],
+		"description": "Check Service Status"
+	},
+	"Set Cron Job": {
+		"prefix": "cron",
+		"body": [
+			"- name: ${1:task_description}",
+			"  cron:",
+			"    - name: ${2:service_name}",
+			"    minute: \"0\"",
+			"    hour: \"2\"",
+			"    job: ${3:\"/path/to/command\"}"
+		],
+		"description": "Set Cron Job"
+	},
+	"Install Software": {
+		"prefix": "install_software",
+		"body": [
+			"- name: ${1:task_description}",
+			"  apt:",
+			"    name: ${1:file_name}",
+			"    state: latest"
+		],
+		"description": "Install Software"
+	},
+	"Search-And-replace file in line": {
+		"prefix": "lineinfile",
+		"body": [
+			"- name: ${1:task_description}",
+			"  lineinfile:",
+			"    path: ${2:/path/to/file.txt}",
+			"    line: \"This is the new line\"",
+			"    insertafter: \"${3:^Pattern to match}\""
+		],
+		"description": "Search and replace line in file"
+	},
+	"Create template": {
+		"prefix": "template",
+		"body": [
+			"- name: ${1:task_description}",
+			"  template:",
+			"    src: ${2:/path/to/source}",
+			"    dest: ${3:/path/to/destination}"
+		],
+		"description": "Create New Template"
+	},
+	"Run Shell Command": {
+		"prefix": "shell",
+		"body": [
+			"- name: ${1:task_description}",
+			"  shell: ${2:shell_command}",
+			"  register: ${3:variable}",
+			"- name: ${4:task_description}",
+			"  debug:",
+			"    var: ${3:variable}"
+		],
+		"description": "Run Shell Command"
+	},
+	"Debug Variable": {
+		"prefix": "debug",
+		"body": [
+			"- name: ${1:task_description}",
+			"  debug:",
+			"    var: ${2:variable}"
+		],
+		"description": "Debug Variable"
+	},
+	"Include Playbook from other file": {
+		"prefix": "include_tasks",
+		"body": [
+			"- include_tasks: ${1:/path/to/playbook.yml}",
+			"  tags:",
+			"    - ${2:playbook_term}"
+		],
+		"description": "Include Playbook from other file"
+	},
+	"Ansible If Else": {
+		"prefix": "when_block",
+		"body": [
+			"- name: ${1:task_description}",
+			"  when: ${2:cond_name}",
+			"  block:"
+		],
+		"description": "Ansible if else"
+	},
+	"Ansible Handlers": {
+		"prefix": "handlers",
+		"body": [
+			"handlers:",
+			"- name: ${2:handle_description}",
+			"  systemd:",
+			"    state: restarted",
+			"    name: ${3:service_name}"
+		],
+		"description": "Ansible Handlers"
+	},
+	"Ansible Looping": {
+		"prefix": "loop",
+		"body": [
+			"- name: ${1:task_description}",
+			"  copy:",
+			"    src: \"/answers/{{item.name}}\"",
+			"    dest: \"/var/www/html_{{item.env}}/index.html\"",
+			"  loop:",
+			"  - { env: 'dev', name: 'dev_index.html'}",
+			"  - { env: 'test', name: 'test_index.html'}",
+			"  - { env: 'qa', name: 'qa_index.html'}"
+		],
+		"description": "Ansible Looping"
+	},
+	"Import Tasks": {
+		"prefix": "import_tasks",
+		"body": "- import_tasks: ${1:/path/to/source}",
+		"description": "Import Tasks"
+	}
+	// Place your snippets for ansible here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+}
