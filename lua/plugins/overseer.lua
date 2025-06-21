@@ -3,8 +3,11 @@ return {
   config = function(_)
     local overseer = require("overseer")
     overseer.setup({
-      templates = { "builtin", "user.first_task" },
+      templates = {
+        "builtin",
+        "user.first_task",
+        "user.second_task",
+      },
     })
-    overseer.load_template("user.second_task")
   end,
 }

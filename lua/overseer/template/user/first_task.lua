@@ -4,7 +4,7 @@ return {
   builder = function()
     local file = vim.fn.expand("%:p")
     return {
-      cmd = { "python" },
+      cmd = { "python3" },
       args = { file },
       components = { { "on_output_quickfix", open = true }, "default" },
     }
