@@ -5,3 +5,7 @@
 vim.api.nvim_create_user_command("Dashboard", function()
   require("snacks").dashboard()
 end, {})
+
+vim.api.nvim_create_user_command("EvalMath", function()
+  vim.cmd([['<,'>!tr -d _ | calc -p]])
+end, { range = true })
