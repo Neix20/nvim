@@ -1,0 +1,149 @@
+{
+  "name": "neix-snippets",
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "global",
+          "all"
+        ],
+        "path": "./all.json"
+      },
+      {
+        "language": [
+          "cmake"
+        ],
+        "path": "./cmake.json"
+      },
+      {
+        "language": [
+          "config"
+        ],
+        "path": "./properties.json"
+      },
+      {
+        "language": [
+          "cpp"
+        ],
+        "path": "./cpp.json"
+      },
+      {
+        "language": [
+          "csharp"
+        ],
+        "path": "./csharp.json"
+      },
+      {
+        "language": [
+          "dockerfile"
+        ],
+        "path": "./dockerfile.json"
+      },
+      {
+        "language": [
+          "html"
+        ],
+        "path": "./html.json"
+      },
+      {
+        "language": [
+          "javascript"
+        ],
+        "path": "./javascript.json"
+      },
+      {
+        "language": [
+          "javascriptreact"
+        ],
+        "path": "./javascriptreact.json"
+      },
+      {
+        "language": [
+          "javascriptreact"
+        ],
+        "path": "./jsx.json"
+      },
+      {
+        "language": [
+          "json"
+        ],
+        "path": "./json.json"
+      },
+      {
+        "language": [
+          "jsonc"
+        ],
+        "path": "./jsonc.json"
+      },
+      {
+        "language": [
+          "markdown"
+        ],
+        "path": "./markdown.json"
+      },
+      {
+        "language": [
+          "nginx"
+        ],
+        "path": "./nginx.json"
+      },
+      {
+        "language": [
+          "plaintext"
+        ],
+        "path": "./plaintext.json"
+      },
+      {
+        "language": [
+          "python"
+        ],
+        "path": "./python.json"
+      },
+      {
+        "language": [
+          "ruby"
+        ],
+        "path": "./ruby.json"
+      },
+      {
+        "language": [
+          "sh"
+        ],
+        "./shellscript.json": "./dockerfile.json"
+      },
+      {
+        "language": [
+          "sql"
+        ],
+        "path": "./sql.json"
+      },
+      {
+        "language": [
+          "terraform"
+        ],
+        "path": "./terraform.json"
+      },
+      {
+        "language": [
+          "yaml"
+        ],
+        "path": "./ansible.json"
+      },
+      {
+        "language": [
+          "yaml"
+        ],
+        "path": "./dockercompose.json"
+      },
+      {
+        "language": [
+          "yaml"
+        ],
+        "path": "./yaml.json"
+      }
+    ]
+  }
+}
