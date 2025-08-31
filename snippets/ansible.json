@@ -81,7 +81,6 @@
 		"prefix": "unzip",
 		"body": [
 			"- name: ${1:task_description}",
-			"  # Comment",
 			"  unarchive:",
 			"    src: ${2:/path/to/source}",
 			"    dest: ${3:/path/to/destination}"
@@ -137,8 +136,8 @@
 			"- name: ${1:task_description}",
 			"  lineinfile:",
 			"    path: ${2:/path/to/file.txt}",
-			"    line: \"This is the new line\"",
-			"    insertafter: \"${3:^Pattern to match}\""
+			"    line: \"${3:Line To Replace}\"",
+			"    insertafter: \"${4:^Pattern to match}\""
 		],
 		"description": "Search and replace line in file"
 	},
@@ -153,7 +152,7 @@
 		"description": "Create New Template"
 	},
 	"Run Shell Command": {
-		"prefix": "shell",
+		"prefix": ["shell", "run_file"],
 		"body": [
 			"- name: ${1:task_description}",
 			"  shell: ${2:shell_command}",
@@ -220,18 +219,39 @@
 		"prefix": "import_tasks",
 		"body": "- import_tasks: ${1:/path/to/source}",
 		"description": "Import Tasks"
+	},
+	"Search-And-Replace II": {
+		"prefix": "lineinfile",
+		"body": [
+			"- name: ${1:Task Description}",
+			"  lineinfile:",
+			"    path: ${2:/path/to/file.txt}",
+			"    regexp: \"${3:^Pattern to match}\"",
+			"    line: \"${4:Line To Replace}\""
+		],
+		"description": "Search-And-Replace II"
+	},
+	"Insert New Line": {
+		"prefix": "insert",
+		"body": [
+			"- name: ${1:Task Description}",
+			"  lineinfile:",
+			"    path: ${2:/path/to/file.txt}",
+			"    line: \"${3:Line To Replace}\"",
+			"    state: present",
+			"    create: true"
+		],
+		"description": "Insert New Line"
+	},
+	"Remove Line": {
+		"prefix": "remove",
+		"body": [
+			"- name: ${1:Task Description}",
+			"  lineinfile:  ",
+			"    path: ${2:/path/to/file.txt}",
+			"    regexp: \"${3:^Pattern to match}\"",
+			"    state: absent"
+		],
+		"description": "Remove Line"
 	}
-	// Place your snippets for ansible here. Each snippet is defined under a snippet name and has a prefix, body and 
-	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
-	// same ids are connected.
-	// Example:
-	// "Print to console": {
-	// 	"prefix": "log",
-	// 	"body": [
-	// 		"console.log('$1');",
-	// 		"$2"
-	// 	],
-	// 	"description": "Log output to console"
-	// }
 }

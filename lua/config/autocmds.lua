@@ -9,3 +9,7 @@ end, {})
 vim.api.nvim_create_user_command("EvalMath", function()
   vim.cmd([['<,'>!tr -d _ | calc -p]])
 end, { range = true })
+
+vim.api.nvim_create_user_command("SetCwd", function()
+  vim.cmd([[cd %:p:h]])
+end, { range = true })

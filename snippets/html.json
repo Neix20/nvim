@@ -74,7 +74,7 @@
 		"description": "Upload Files"
 	},
 	"Boilerplate": {
-		"prefix": "!",
+		"prefix": [ "html" ],
 		"body": [
 			"<!DOCTYPE html>",
 			"<html lang=\"en\">",

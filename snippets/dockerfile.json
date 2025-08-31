@@ -12,30 +12,6 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// },
-	"DockerFile Initialization": {
-		"prefix": "init",
-		"body": ["FROM node:16",
-		"",
-		"# Create app directory",
-		"WORKDIR /usr/src/app",
-		"",
-		"# Install app dependencies",
-		"# A wildcard is used to ensure both package.json AND package-lock.json are copied where available (npm@5+)",
-		"COPY package.json ./",
-		"",
-		"RUN yarn install",
-		"# If you are building your code for production",
-		"# RUN npm ci --only=production",
-		"",
-		"# Bundle app source",
-		"COPY . .",
-		"",
-		"EXPOSE 6969",
-		"",
-		"CMD [ \"npm\", \"run\", \"start\" ]"
-		],
-		"description": "DockerFile Initialization"
-	},
 	"Nginx Example": {
 		"prefix": "nginx",
 		"body": [
@@ -47,5 +23,67 @@
 			"COPY dist/  /usr/share/nginx/html/"
 		],
 		"description": "Build from Nginx"
+	},
+	"Docker Alpine Main": {
+		"prefix": "init",
+		"body": [
+			"FROM alpine:3.20",
+			"",
+			"RUN apk update && apk add --no-cache \\",
+			"  bash \\",
+			"  python3 \\",
+			"  python3-dev \\",
+			"  git \\",
+			"  git-fast-import \\",
+			"  openssh \\",
+			"  kmod \\",
+			"  curl \\",
+			"  coreutils \\",
+			"  findutils \\",
+			"  procps \\",
+			"  openrc \\",
+			"  bash-completion \\",
+			"  sudo \\",
+			"  chrony \\",
+			"  iptables \\",
+			"  audit \\",
+			"  audit-openrc \\",
+			"  grub \\",
+			"  grub-efi \\",
+			"  openssh-server-pam \\",
+			"  openssh-client build-base \\",
+			"  rsyslog \\",
+			"  shadow \\",
+			"  dcron \\",
+			"  vim \\",
+			"  fontconfig \\",
+			"  ttf-dejavu \\",
+			"  && apk add libtasn1 libbz2 libjpeg-turbo libcurl \\",
+			"  && apk add libpwquality apparmor apparmor-profiles apparmor-openrc libapparmor --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main \\",
+			"  && apk add openjdk21 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.20/community",
+			"",
+			"ENTRYPOINT [ \"/bin/sh\", \"-c\", \"sleep infinity\" ]"
+		],
+		"description": "Dockerfile Alpine Main"
+	},
+	"DockerFile Basic Simple": {
+		"prefix": "init",
+		"body": [
+			"FROM alpine:3.20",
+			"",
+			"RUN apk update && apk add --no-cache \\",
+			"  bash \\",
+			"  python3 \\",
+			"  nodejs \\",
+			"  git \\",
+			"  curl \\",
+			"  bash-completion \\",
+			"  sudo \\",
+			"  neovim \\",
+			"  && apk add openjdk21 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.20/community",
+			"",
+			"ENTRYPOINT [ \"/bin/sh\", \"-c\", \"sleep infinity\" ]"
+		],
+		"description": "Docker basic Simple"
 	}
 }

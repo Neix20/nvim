@@ -1,0 +1,32 @@
+{
+    "Convert to SQL Select": {
+		"prefix": "select",
+		"body": [
+			"{",
+			"  \"type\": \"select\",",
+			"  \"data\": ${TM_SELECTED_TEXT}",
+			"}"
+		],
+		"description": "Convert to SQL Select"
+	},
+	"Convert to Sql Insert": {
+		"prefix": "insert",
+		"body": [
+			"{",
+			"  \"type\": \"insert\",",
+			"  \"data\": ${TM_SELECTED_TEXT}",
+			"}"
+		],
+		"description": "Convert to SQL Insert"
+	},
+	"Convert to SQL Update": {
+		"prefix": "update",
+		"body": [
+			"{",
+			"  \"type\": \"update\",",
+			"  \"data\": ${TM_SELECTED_TEXT}",
+			"}"
+		],
+		"description": "Convert to SQL Update"
+	}
+}

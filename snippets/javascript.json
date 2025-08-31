@@ -1,38 +1,4 @@
 {
-	"React Fetch API": {
-		"prefix": "fetch",
-		"body": [
-			"const fetchData = async () => {",
-			"\tconst url = \"$1\";",
-			"\t",
-			"\t// Static Data",
-			"\tlet obj = Utility.requestObj({$4});",
-			"\t",
-			"\tconst resp = await fetch(url, {",
-			"\t\tmethod: \"POST\",",
-			"\t\theaders: {",
-			"\t\t\t\"Content-Type\": \"application/json\",",
-			"\t\t},",
-			"\t\tbody: JSON.stringify(obj),",
-			"\t});",
-			"\t",
-			"\tconst data = await resp.json();",
-			"\t",
-			"\tif (data[\"ResponseCode\"] === \"00\") {",
-			"\t\tconst {$5} = data;",
-			"\t}",
-			"\telse {",
-			"\t\tconsole.log(`$2 - $3 - Request - ${JSON.stringify(obj)}`);",
-			"\t\tconsole.log(`$2 - $3 - Response - ${JSON.stringify(data)}`);",
-			"\t}",
-			"};",
-			"",
-			"fetchData().catch((err) => {",
-			"\tconsole.log(`Error: ${err}`);",
-			"});"
-		],
-		"description": "React Fetch"
-	},
 	"React Action": {
 		"prefix": "action",
 		"body": [
@@ -63,76 +29,65 @@
 		],
 		"description": "React Action Reducer"
 	},
-	"React UseState": {
-		"prefix": "useState",
+	"Express: Main": {
+		"prefix": ["ess", "express"],
 		"body": [
-			"const [$1, $3set$1] = useState($2);"
-		],
-		"description": "React UseState"
-	},
-	"ess": {
-		"prefix": "Express Simple Server",
-		"body": [
-			"const express = require('express');",
-			"const path = require('path');",
-			"const cors = require('cors');",
+			"import express from \"express\";",
+			"import path from \"path\";",
+			"import cors from \"cors\";",
+			"import createError from \"http-errors\";",
 			"",
-			"const cookieParser = require('cookie-parser');",
-			"const expressLayouts = require('express-ejs-layouts');",
+			"import dotenv from 'dotenv';",
 			"",
-			"const createError = require('http-errors');",
-			"const { info, error } = require(\"./utility\");",
+			"import { clsLogger } from \"./utils/index.js\";",
+			"import router from \"./routes/route.js\";",
 			"",
-			"require('dotenv').config();",
+			"// Load Variables from DotEnv",
+			"dotenv.config();",
 			"",
 			"// Create New App",
 			"const app = express();",
 			"",
 			"app.use(cors());",
-			"app.use(cookieParser());",
+			"// app.use(cookieParser());",
 			"",
 			"// Form Submission, Used to Handle json Data",
 			"app.use(express.json({ limit: '50mb' }));",
 			"app.use(express.urlencoded({ extended: false, limit: '50mb' }));",
 			"",
-			"app.use(express.static(path.join(__dirname, 'public')));",
-			"",
-			"// Express Js Layouts",
-			"app.use(expressLayouts)",
-			"app.set('view engine', 'ejs');",
-			"app.set('views', path.join(__dirname, 'views'));",
+			"app.use(express.static(path.join('public')));",
 			"",
 			"// Custom Router MiddleWare",
-			"let router = require('./router/route');",
 			"app.use('/', router);",
 			"",
-			"// catch 04 and forward to error handler",
-			"app.use(function (req, res, next) {",
-			"\tnext(createError(404));",
+			"// catch 404 and forward to error handler",
+			"app.use((req, res, next) => {",
+			"    next(createError(404));",
 			"});",
 			"",
 			"// error handler",
-			"app.use(function (err, req, res, next) {",
-			"\t// set locals, only providing error in development",
-			"\terror.error(err);",
+			"app.use((err, req, res, next) => {",
 			"",
-			"\t// render the error page",
-			"\tres.status(err.status || 500);",
-			"\tres.render('error', {",
-			"\t\tmessage: err.message,",
-			"\t\terror: err",
-			"\t});",
+			"    // set locals, only providing error in development",
+			"    clsLogger.error(err);",
+			"",
+			"    // render the error page",
+			"    res.status(err.status || 500);",
+			"    res.render('error', {",
+			"        message: err.message,",
+			"        error: err",
+			"    });",
 			"});",
 			"",
-			"const PORT = process.env.PORT || 5000;",
+			"const PORT = process.env.SERVER_PORT || 5000;",
 			"",
 			"app.listen(PORT, _ => {",
-			"\tconsole.log(`Server Listening on PORT ${PORT}`);",
+			"    console.log(`Server Listening on PORT \\${PORT}`);",
 			"});"
 		],
-		"description": "Express Simple Server"
+		"description": "Express: Main"
 	},
-	"Simple Router": {
+	"Express: Router": {
 		"prefix": "router",
 		"body": [
 			"const express = require('express');",
@@ -149,50 +104,7 @@
 		],
 		"description": "Express Router Sample"
 	},
-	"Express Get Function": {
-		"prefix": "get",
-		"body": [
-			"async function ${function_name}(req, res) {",
-			"\tlet responseCode = \"99\";",
-			"\tlet data = {};",
-			"",
-			"\tinfo.info(req.query);",
-			"\ttry {",
-			"\t\tdata[\"Gay\"] = \"Hello World\";",
-			"\t\tresponseCode = \"00\";",
-			"\t} catch(err) {",
-			"\t\terror.error(err);",
-			"\t}",
-			"",
-			"\tdata[\"ResponseCode\"] = responseCode;",
-			"\treturn res.status(200).json(data);",
-			"}"
-		],
-		"description": "Express Get Function"
-	},
-	"Express Post Function": {
-		"prefix": "post",
-		"body": [
-			"async function ${function_name}(req, res) {",
-			"\tlet responseCode = \"99\";",
-			"\tlet data = {};",
-			"",
-			"\tinfo.info(req.body);",
-			"\ttry {",
-			"\t\tconst { Input } = req.body;",
-			"\t\tdata[\"Input\"] = Input;",
-			"\t\tresponseCode = \"00\";",
-			"\t} catch (err) {",
-			"\t\terror.error(err);",
-			"\t}",
-			"",
-			"\tdata[\"ResponseCode\"] = responseCode;",
-			"\treturn res.status(200).json(data);",
-			"}"
-		],
-		"description": "Express Post Function"
-	},
-	"Multer": {
+	"Express: Multer": {
 		"prefix": "multer",
 		"body": [
 			"const ${1:engine_name}StorageEngine = multer.diskStorage({",
@@ -209,15 +121,7 @@
 		],
 		"description": "Create Simple Multer"
 	},
-	"Multer Wrapper": {
-		"prefix": "multer_wrapper",
-		"body": [
-			"const multerWrapper = require(\"./../middleware/multer-mw\");",
-			"const uploadVideo = multer({ storage: multerWrapper.videoFileStorageEngine });"
-		],
-		"description": "Multer Wrapper"
-	},
-	"Download File": {
+	"Express: Download File": {
 		"prefix": "download",
 		"body": [
 			"async function downloadFile(req, res) {",
@@ -229,7 +133,7 @@
 		],
 		"description": "Download File"
 	},
-	"Stream Audio File": {
+	"Express: Stream Audio File": {
 		"prefix": "stream_audio",
 		"body": [
 			"async function streamAudio(req, res) {",
@@ -253,7 +157,7 @@
 		],
 		"description": "Stream Audio File"
 	},
-	"Stream Video": {
+	"Express: Stream Video": {
 		"prefix": "stream_video",
 		"body": [
 			"async function streamVideo(req, res) {",
@@ -278,7 +182,7 @@
 		],
 		"description": "Stream Video"
 	},
-	"Upload File": {
+	"Express: Upload File": {
 		"prefix": "upload",
 		"body": [
 			"async function uploadFile(req, res) {",
@@ -291,8 +195,8 @@
 		],
 		"description": "Upload File"
 	},
-	"Firebase Models": {
-		"prefix": "init_model",
+	"Firebase: Models": {
+		"prefix": ["model", "firebase_model"],
 		"body": [
 			"const { getData, addData, updateData, deleteData } = require(\"./../firebase-wrapper\");",
 			"",
@@ -375,8 +279,8 @@
 		],
 		"description": "Firebase Models"
 	},
-	"Express-Firebase MVC Controller": {
-		"prefix": "init_mvc_controller",
+	"Express-Firebase: MVC Controller": {
+		"prefix": ["mvc", "controller"],
 		"body": [
 			"const { info, error } = require(\"./../../utility\");",
 			"",
@@ -474,16 +378,6 @@
 			"}"
 		],
 		"description": "Express-Firebase MVC Controller"
-	},
-	"Router routes": {
-		"prefix": "route_gen",
-		"body": [
-			"router.post(\"/${tblName}/SelectAll${tblName}\", ${tblName}Controller.SelectAll${tblName});",
-			"router.post(\"/${tblName}/Insert${tblName}\", ${tblName}Controller.Insert${tblName});",
-			"router.post(\"/${tblName}/Update${tblName}\", ${tblName}Controller.Update${tblName});",
-			"router.post(\"/${tblName}/Delete${tblName}\", ${tblName}Controller.Delete${tblName});"
-		],
-		"description": "Router Routes"
 	},
 	"Encode File to Base64": {
 		"prefix": "encode64",
@@ -598,7 +492,7 @@
 		],
 		"description": "Firebase Wrapper"
 	},
-	"React Empty Modal": {
+	"React: Empty Modal": {
 		"prefix": "init_modal",
 		"body": [
 			"import React, { useState, useEffect } from \"react\";",
@@ -629,7 +523,7 @@
 		],
 		"description": "React Empty Modal"
 	},
-	"React Init": {
+	"React: Init": {
 		"prefix": "react",
 		"body": [
 			"import React, { useState, useEffect } from \"react\";",
@@ -648,7 +542,7 @@
 		],
 		"description": "React Init"
 	},
-	"React Screens": {
+	"React: Screens": {
 		"prefix": "screen",
 		"body": [
 			"\"${1:screen}\": {",
@@ -672,65 +566,12 @@
 		"prefix": "redux",
 		"body": [
 			"import { useDispatch, useSelector } from 'react-redux';\r",
-			"import { Actions, Selectors } from '@redux';"
+			"import { Actions, Selectors } from '@libs/redux';"
 		],
 		"description": "React Redux"
 	},
-	"LeetCode": {
-		"prefix": "leetcode",
-		"body": [
-			"let $2 = null;\r",
-			"$3\r",
-			"\r",
-			"const res = $1($2$4);\r",
-			"console.log(res);"
-		],
-		"description": "LeetCode"
-	},
-	"Fetch V2": {
-		"prefix": "fetch",
-		"body": [
-			"import { Utility } from \"@utility\";\r",
-			"\r",
-			"const Index = async (props) => {\r",
-			"\r",
-			"    const { param } = props;\r",
-			"    const { onSetLoading } = props;\r",
-			"\r",
-			"    const action = \"$1\";\r",
-			"    const url = Utility.genServerUrl(action);\r",
-			"\r",
-			"    // Static Data\r",
-			"    let obj = Utility.requestObj(param);\r",
-			"\r",
-			"    const resp = await fetch(url, {\r",
-			"        method: \"POST\",\r",
-			"        headers: {\r",
-			"            \"Content-Type\": \"application/json\",\r",
-			"        },\r",
-			"        body: JSON.stringify(obj),\r",
-			"    });\r",
-			"\r",
-			"    const data = await resp.json();\r",
-			"    onSetLoading(false);\r",
-			"\r",
-			"    if (data[\"ResponseCode\"] === \"00\") {\r",
-			"        // return data;\r",
-			"    }\r",
-			"    else {\r",
-			"        console.log(`$2 - $3 - Request - ${JSON.stringify(obj)}`);\r",
-			"        console.log(`$2 - $3 - Response - ${JSON.stringify(data)}`);\r",
-			"    }\r",
-			"\r",
-			"    return data;\r",
-			"};\r",
-			"\r",
-			"export default Index;"
-		],
-		"description": "New Fetch API Using API Folder"
-	},
 	"Create React Native Modal": {
-		"prefix": "init",
+	"prefix": "init",
 		"body": [
 			"import React, { useState, useEffect } from \"react\";",
 			"import { Text, TouchableOpacity, Image, TextInput } from \"react-native\";",
@@ -1067,15 +908,6 @@
 		],
 		"description": "description for Region Comments"
 	},
-	"Javascript Function": {
-		"prefix": "function",
-		"body": [
-			"function ${1:funcName}(${2:funcParam}) {",
-			"    $TM_SELECTED_TEXT",
-			"}"
-		],
-		"description": "description for Javascript Function"
-	},
 	"Constants": {
 		"prefix": [
 			"const",
@@ -1176,25 +1008,25 @@
 		],
 		"body": [
 			"const fs = require(\"fs\");",
+			"const path = require(\"path\");",
 			"",
-			"const { LOG_DIR, NORMAL_LOG, ERROR_LOG } = require(\"./clsConst\");",
-			"const { genDt } = require(\"./clsUtility\");",
-			"",
-			"// Check If Folder exists",
-			"if (!fs.existsSync(LOG_DIR)) {",
-			"    fs.mkdirSync(LOG_DIR);",
-			"    console.log(`Directory \\${LOG_DIR} created!`);",
-			"}",
+			"const { NORMAL_LOG, ERROR_LOG } = require(\"./clsConst\");",
+			"const { genDt, genTs } = require(\"./clsUtility\");",
 			"",
 			"class Log {",
 			"    info(content) {",
 			"        try {",
 			"            let dt = genDt();",
-			"            content = JSON.stringify(content);",
-			"            content = dt + ' ' + content + '\\n';",
+			"            let ts = genTs();",
 			"",
+			"            content = JSON.stringify(content);",
+			"            content = `\\${dt} at \\${ts} | INFO | \\${content}\\n`;",
+			"",
+			"            // Remove NewLine",
 			"            console.log(content.slice(0, -1));",
-			"            fs.writeFileSync(NORMAL_LOG, content, { flag: \"a+\" });",
+			"",
+			"            const fp = path.join(NORMAL_LOG, `\\${dt}.log`);",
+			"            fs.writeFileSync(fp, content, {flag: \"a+\"});",
 			"        } catch (err) {",
 			"            console.log(err);",
 			"        }",
@@ -1203,13 +1035,18 @@
 			"    error(content) {",
 			"        try {",
 			"            let dt = genDt();",
+			"            let ts = genTs();",
+			"            ",
 			"            content = JSON.stringify(content);",
-			"            content = dt + ' ' + content + '\\n';",
+			"            content = `\\${dt} at \\${ts} | ERROR | \\${content}\\n`;",
 			"",
+			"            // Remove NewLine",
 			"            console.log(content.slice(0, -1));",
-			"            fs.writeFileSync(ERROR_LOG, content, { flag: \"a+\" });",
+			"",
+			"            const fp = path.join(ERROR_LOG, `\\${dt}.log`);",
+			"            fs.writeFileSync(fp, content, {flag: \"a+\"});",
 			"        } catch (err) {",
-			"            console.error(err);",
+			"            console.log(err);",
 			"        }",
 			"    }",
 			"}",
@@ -1219,9 +1056,12 @@
 		"description": "Description for Logger"
 	},
 	"Macro Function II": {
-		"prefix": ["macro", "function"],
+		"prefix": [
+			"macro",
+			"function"
+		],
 		"body": [
-			"function ${func_name}(text = \"[]\") {",
+			"function ${funcName}(text = \"[]\") {",
 			"    if (text.length <= 0) {",
 			"        return \"\";",
 			"    }",
@@ -1236,12 +1076,258 @@
 		"description": "Description for Macro Function II"
 	},
 	"Jest Boilerplate": {
-		"prefix": ["jest", "test"],
+		"prefix": [
+			"jest",
+			"test"
+		],
 		"body": [
 			"test(\"$1\", () => {\r",
 			"    expect().toBe();\r",
 			"})"
 		],
 		"description": "description for Jest Boilerplate"
+	},
+	"Express: Model Function": {
+		"prefix": [
+			"function",
+			"model_func"
+		],
+		"body": [
+			"async ${1:funcName}(${2:reqObj}) {",
+			"    // Parameters",
+			"    let res = null;",
+			"    const funcName = \"${1:funcName}\";",
+			"",
+			"    try {",
+			"        const param_num = Object.keys(${2:reqObj}).map((x, ind) => \"\\$\" + (ind + 1)).join(\", \");",
+			"        const query = `SELECT NSP_\\${this.tblName}_\\${funcName}(\\${param_num});`;",
+			"",
+			"        // Write Business Logic",
+			"        const params = Object.values(${2:reqObj});",
+			"",
+			"        res = await clsDbConn.executeQueryAsync(query, params);",
+			"        clsLogger.info(`\\${this.fstrPageName}.\\${funcName} Completed Successfully!`);",
+			"    } catch (error) {",
+			"        console.error(`Error With \\${this.fstrPageName}.\\${funcName} Query`, error.stack);",
+			"    }",
+			"",
+			"    return res;",
+			"}"
+		],
+		"description": "Express models"
+	},
+	"Express: Model Class": {
+		"prefix": [
+			"class",
+			"model_class"
+		],
+		"body": [
+			"const { clsDbConn, clsLogger } = require(\"./../utils\");",
+			"",
+			"class ${1:modelName} {",
+			"",
+			"    constructor() {",
+			"        this.tblName = \"${2:tblName}\";",
+			"        this.tblPrimaryKey = \"${3:tblPrimaryKey}\";",
+			"        this.fstrPageName = \"${1:modelName}\";",
+			"    }",
+			"",
+			"}"
+		],
+		"description": "Express Model Class"
+	},
+	"Express Controller: Function": {
+		"prefix": "function",
+		"body": [
+			"static async ${1:funcName}(req, res, next) {",
+			"    let resData = {};",
+			"    const funcName = \"${1:funcName}\";",
+			"",
+			"    // Log Request Body",
+			"    clsLogger.info(`\\${fstrPageName}.\\${funcName} has been requested.`);",
+			"    clsLogger.info(genReqObj(funcName, req));",
+			"",
+			"    try {",
+			"        // Write Business Logic",
+			"        ${2:funcBody}",
+			"    } catch (err) {",
+			"        const obj = genErrObj(funcName, err);",
+			"        clsLogger.error(obj);",
+			"        return next(new AppError(obj.message, obj.statusCode, obj.error));",
+			"    }",
+			"",
+			"    const respMsg = \"Success!\";",
+			"    clsLogger.info(genRespObj(STATUS_CODES.OK, respMsg, resData));",
+			"",
+			"    return sendResponse(res, STATUS_CODES.OK, respMsg, resData);",
+			"}"
+		],
+		"description": "Express Controller: Function"
+	},
+	"React API: fetch Template": {
+		"prefix": "fetch",
+		"body": [
+			"import { clsUtility } from \"@utility\";",
+			"import { clsConst } from \"@config\";",
+			"",
+			"const { APP_NAME } = clsConst;",
+			"",
+			"const Index = async (param) => {",
+			"",
+			"    try {",
+			"        const action = \"${action_name}\";",
+			"        const url = clsUtility.genServerUrl(action);",
+			"",
+			"        // Static Data",
+			"        let obj = clsUtility.requestObj(param);",
+			"",
+			"        const resp = await fetch(url, {",
+			"            method: \"POST\",",
+			"            headers: {",
+			"                \"Content-Type\": \"application/json\",",
+			"            },",
+			"            body: JSON.stringify(obj),",
+			"        });",
+			"",
+			"        const data = await resp.json();",
+			"",
+			"        console.log(`\\${APP_NAME} - \\${action} - Request - \\${JSON.stringify(obj)}`);",
+			"        console.log(`\\${APP_NAME} - \\${action} - Response - \\${JSON.stringify(data)}`);",
+			"",
+			"        return data;",
+			"    } catch (error) {",
+			"        throw error;",
+			"    }",
+			"",
+			"    return null;",
+			"};",
+			"",
+			"export default Index;"
+		],
+		"description": "React API: fetch Template"
+	},
+	"React: Sample Empty": {
+		"prefix": ["main", "init"],
+		"body": [
+			"import React, { useState, useEffect } from \"react\";",
+			"",
+			"function Index(props) {",
+			"    return (",
+			"        <div>",
+			"            <h1>This is Empty Page</h1>",
+			"        </div>",
+			"    )",
+			"}",
+			"",
+			"export default Index;"
+		],
+		"description": "React: Sample Empty"
+	},
+	"React API: Axios": {
+		"prefix": "axios",
+		"body": [
+			"import { axiosRequest, genLogUrl, genServerUrl, requestObj } from \"@libs/api/Axios\";",
+			"",
+			"const Index = async (param = {}) => {",
+			"",
+			"    const action = \"${1:API URL}\";",
+			"    const url = genServerUrl(action);",
+			"",
+			"    // Static Data",
+			"    const reqPayload = requestObj(param);",
+			"    let respData = null;",
+			"",
+			"    try {",
+			"        const resp = await axiosRequest.${2:post}(url, reqPayload);",
+			"        respData = resp.data;",
+			"    } catch (error) {",
+			"        throw error;",
+			"    }",
+			"",
+			"    return respData;",
+			"};",
+			"",
+			"export default Index;"
+		],
+		"description": "React API: Axios"
+	},
+	"Lambda Get Item": {
+		"prefix": "getItem",
+		"body": [
+			"getItem = async (props = {}) => {",
+			"",
+			"        const { data: { PK, SK } } = props;",
+			"",
+			"        const params = {",
+			"            Key: marshall({",
+			"                PK, SK",
+			"            })",
+			"        };",
+			"",
+			"        const res = await this.dbHelper.getItem(params);",
+			"",
+			"        const { requestId = -1 } = res[\"\\$metadata\"];",
+			"",
+			"        return {",
+			"            ref: requestId,",
+			"            data: unmarshall(res[\"Item\"])",
+			"        };",
+			"    }"
+		],
+		"description": "Lambda Get Item"
+	},
+	"Lambda Add Item": {
+		"prefix": "additem",
+		"body": [
+			"updateItem = async (props = {}) => {",
+			"",
+			"        const { data = \"\" } = props;",
+			"",
+			"        const { data: _item } = await this.getItem(props);",
+			"",
+			"        const params = {",
+			"            Item: marshall({",
+			"                ..._item,",
+			"                ...data",
+			"            })",
+			"        };",
+			"",
+			"        const res = await this.dbHelper.updateItem(params);",
+			"",
+			"        const { requestId = -1 } = res[\"$metadata\"];",
+			"",
+			"        return {",
+			"            ref: requestId,",
+			"            msg: `${data.PK} Updated Successfully`",
+			"        };",
+			"    }"
+		],
+		"description": "Lambda Add Item"
+	},
+	"Lambda Upload Image": {
+		"prefix": "uploadImg",
+		"body": [
+			"uploadImg = async (props = {}) => {",
+			"",
+			"        const { event } = props;",
+			"",
+			"        const result = await parser.parse(event);",
+			"",
+			"        const file = result.files[0];",
+			"",
+			"        // Set up the parameters for S3 upload",
+			"        const fileName = file.filename;",
+			"        const fileData = Buffer.from(file.content, 'base64');",
+			"        const contentType = file.contentType;",
+			"",
+			"        const s3Url = await this.s3Helper.upload(fileName, fileData, contentType);",
+			"",
+			"        return {",
+			"            msg: `\\${fileName} uploaded successfully!`,",
+			"            url: s3Url",
+			"        }",
+			"    }"
+		],
+		"description": "Lambda Upload Image"
 	}
 }

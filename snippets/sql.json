@@ -1,63 +1,8 @@
 {
-	// Place your snippets for sql here. Each snippet is defined under a snippet name and has a prefix, body and 
-	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
-	// same ids are connected.
-	// Example:
-	// "Print to console": {
-	// 	"prefix": "log",
-	// 	"body": [
-	// 		"console.log('$1');",
-	// 		"$2"
-	// 	],
-	// 	"description": "Log output to console"
-	// }
-	"SQL Empty Table": {
-		"prefix": "tbl",
-		"body": [
-			"CREATE TABLE [$1] (",
-			");"
-		],
-		"description": "Create SQL Empty Table"
-	},
-	"SQL String": {
-		"prefix": "varchar",
-		"body": [
-			"$1 VARCHAR($2),"
-		],
-		"description": "Create SQL String"
-	},
-	"SQL N String": {
-		"prefix": "nvarchar",
-		"body": [
-			"$1 NVARCHAR($2),"
-		],
-		"description": "Create SQL String"
-	},
-	"SQL Decimal": {
-		"prefix": "decimal",
-		"body": [
-			"$1 DECIMAL($2, $3),"
-		],
-		"description": "Create SQL Decimal"
-	},
-	"SQL Int": {
-		"prefix": "int",
-		"body": [
-			"$1 INT,"
-		],
-		"description": "Create SQL Int"
-	},
-	"SQL DateTime": {
-		"prefix": "datetime",
-		"body": [
-			"$1 DATETIME,"
-		],
-		"description": "Create SQL DateTime"
-	},
 	"SQL Insert Statement": {
-		"prefix": "insertStmt",
+		"prefix": "insert",
 		"body": [
+			"BEGIN TRANSACTION;",
 			"INSERT INTO $1",
 			"(",
 			"$2",
@@ -65,30 +10,35 @@
 			"VALUES",
 			"(",
 			"$3",
-			");"
+			");",
+			"COMMIT TRANSACTION;"
 		],
 		"description": "SQL Insert Statement"
 	},
 	"SQL Update Statment": {
-		"prefix": "updateStmt",
+		"prefix": "update",
 		"body": [
+			"BEGIN TRANSACTION;",
 			"UPDATE $1",
 			"SET $2",
-			"WHERE 1=1;"
+			"WHERE 1=1;",
+			"COMMIT TRANSACTION;"
 		],
 		"description": "SQL Update Statment"
 	},
 	"SQL Delete Statment": {
-		"prefix": "deleteStmt",
+		"prefix": "delete",
 		"body": [
-			"DELETE $1",
+			"BEGIN TRANSACTION;",
+			"DELETE FROM $1",
 			"WHERE 1=1",
-			"AND $2 = $3;"
+			"AND $2 = $3;",
+			"COMMIT TRANSACTION;"
 		],
 		"description": "SQL Delete Statement"
 	},
 	"SQL Select Statment": {
-		"prefix": "selectStmt",
+		"prefix": "select",
 		"body": [
 			"SELECT * ",
 			"FROM $1",
@@ -96,7 +46,7 @@
 		],
 		"description": "SQL Select Statment"
 	},
-	"SQL Credentials Setup": {
+	"MSSQL: User Credentials Setup": {
 		"prefix": "admin",
 		"body": [
 			"-- User Table",
@@ -153,57 +103,78 @@
 		],
 		"description": "SQL Credentials Setup"
 	},
-	"Create SQL Table": {
-		"prefix": "tblFull",
+	"MSSQL: Create SQL Table": {
+		"prefix": "tbl",
 		"body": [
-			"CREATE TABLE $1(\r",
-			"    $2 INT IDENTITY(1,1) NOT NULL,\r",
-			"    CONSTRAINT $1_pk PRIMARY KEY ($2)\r",
+			"CREATE TABLE $1(",
+			"    $2 INT IDENTITY(1,1) NOT NULL,",
+			"    CONSTRAINT $1_pk PRIMARY KEY ($2)",
 			");"
 		],
 		"description": "Initialize SQL Table"
 	},
-	"SQL Custom Attribute": {
+	"Postgres: SQL Custom Attribute": {
 		"prefix": "init",
 		"body": [
-			"Status INT,\r",
-			"Remark NVARCHAR(400),\r",
-			"Created_By VARCHAR(100),\r",
-			"Created_Date DATETIME,\r",
-			"Last_Updated_By VARCHAR(100),\r",
-			"Last_Updated_Date DATETIME,"
+			"Status INT,",
+			"Remark VARCHAR,",
+			"CreatedDate TIMESTAMP,",
+			"LastUpdatedDate TIMESTAMP"
 		],
 		"description": "SQL Custom Attribute"
 	},
-	"Deafult Values": {
+	"MSSQL: SQL Custom Attribute": {
 		"prefix": "init",
 		"body": [
-			"1, '',\r",
-			"@Last_Updated_By, GETDATE(),\r",
-			"@Last_Updated_By, GETDATE()"
+			"Status INT,",
+			"Remark VARCHAR(400),",
+			"CreatedDate DATETIME,",
+			"LastUpdatedDate DATETIME"
 		],
-		"description": "Default Values for Table"
+		"description": "SQL Custom Attribute"
 	},
-	"SQL Store Procedure": {
+	"MSSQL: Default Values": {
+		"prefix": "init",
+		"body": [
+			"1, '',",
+			"GETDATE(),",
+			"GETDATE()"
+		],
+		"description": "MSSQL: Default Values"
+	},
+	"Postgres: Default Values": {
+		"prefix": "init",
+		"body": [
+			"1, '',",
+			"NOW(),",
+			"NOW()"
+		],
+		"description": "Postgres: Default Values"
+	},
+	"MSSQL: Store Procedure": {
 		"prefix": "store_procedure",
 		"body": [
-			"CREATE OR ALTER PROCEDURE NSP_${1:proc_name}\r",
-			"(\r",
-			"$2\r",
-			")\r",
-			"AS\r",
-			"$3\r",
-			"-- EXEC NSP_${1:proc_name}\r",
+			"-- EXEC NSP_${1:proc_name}",
+			"CREATE OR ALTER PROCEDURE NSP_${1:proc_name}",
+			"(",
+			")",
+			"AS",
+			"$3",
 			"GO"
 		],
-		"description": "Create SQL Store Procedure"
+		"description": "MSSQL: Store Procedure"
 	},
-	"Stored Procedure Source": {
+	"Case Condition": {
+		"prefix": "case",
+		"body": "AND CASE WHEN ${1:param_id} = -1 THEN ${1:param_id} ELSE ${2:actual_id} END = ${1:param_id} ",
+		"description": "description for Case Condition"
+	},
+	"MSSQL: Stored Procedure Source": {
 		"prefix": "sp_helptext",
 		"body": "EXEC sp_helptext $TM_SELECTED_TEXT;",
-		"description": "description for Stored Procedure Source"
+		"description": "MSSQL: Stored Procedure Source"
 	},
-	"List All Store Procedure": {
+	"MSSQL: List All Store Procedure": {
 		"prefix": "store_procedure",
 		"body": [
 			"SELECT * ",
@@ -211,14 +182,14 @@
 			"WHERE 1=1",
 			"AND name LIKE 'NSP_${1:tableName}%';"
 		],
-		"description": "description for List All Store Procedure"
+		"description": "MSSQL: List All Store Procedure"
 	},
-	"Execute Stored Procedure": {
+	"MSSQL: Execute Stored Procedure": {
 		"prefix": "exec",
 		"body": "EXEC $TM_SELECTED_TEXT",
-		"description": "description for Execute Stored Procedure"
+		"description": "MSSQL: Execute Stored Procedure"
 	},
-	"Show All Store Procedure": {
+	"MSSQL: Show All Store Procedure": {
 		"prefix": "store_procedure",
 		"body": [
 			"CREATE TABLE #NewList (",
@@ -256,9 +227,9 @@
 			"",
 			"SELECT * FROM #NewList;"
 		],
-		"description": "Snippet for Show All Store Procedure"
+		"description": "MSSQL: Show All Store Procedure"
 	},
-	"Select Duplicate Records (Device Logs)": {
+	"MSSQL: Select Duplicate Records (Device Logs)": {
 		"prefix": "duplicate",
 		"body": [
 			"DECLARE @startDt DATETIME = '${datetime}'",
@@ -277,54 +248,60 @@
 			"    HAVING COUNT(*) > 1",
 			");"
 		],
-		"description": "Select Statement for Duplicate Records"
+		"description": "MSSQL: Select Duplicate Records (Device Logs)"
 	},
-	"Check Database CPU Usage": {
-		"prefix": ["process", "debug", "sql"],
+	"MSSQL: Check Database CPU Usage": {
+		"prefix": [
+			"process",
+			"debug",
+			"sql"
+		],
 		"body": [
-			"WITH CPU_Per_Db AS (\r",
-			"    SELECT dmpa.DatabaseID,\r",
-			"        DB_Name(dmpa.DatabaseID) AS [Database],\r",
-			"        SUM(dmqs.total_worker_time) AS CPUTimeAsMS\r",
-			"    FROM sys.dm_exec_query_stats dmqs\r",
-			"        CROSS APPLY (\r",
-			"            SELECT CONVERT(INT, value) AS [DatabaseID]\r",
-			"            FROM sys.dm_exec_plan_attributes(dmqs.plan_handle)\r",
-			"            WHERE attribute = N'dbid'\r",
-			"        ) dmpa\r",
-			"    GROUP BY dmpa.DatabaseID\r",
-			")\r",
-			"SELECT [Database],\r",
-			"    [CPUTimeAsMS],\r",
-			"    CAST(\r",
-			"        [CPUTimeAsMS] * 1.0 / SUM([CPUTimeAsMS]) OVER() * 100.0 AS DECIMAL(5, 2)\r",
-			"    ) AS [CPUTimeAs{96f5cbaad583fb885ff5d18ecce5734bf1e8596949521e20c290401929518f75}]\r",
-			"FROM CPU_Per_Db\r",
+			"WITH CPU_Per_Db AS (",
+			"    SELECT dmpa.DatabaseID,",
+			"        DB_Name(dmpa.DatabaseID) AS [Database],",
+			"        SUM(dmqs.total_worker_time) AS CPUTimeAsMS",
+			"    FROM sys.dm_exec_query_stats dmqs",
+			"        CROSS APPLY (",
+			"            SELECT CONVERT(INT, value) AS [DatabaseID]",
+			"            FROM sys.dm_exec_plan_attributes(dmqs.plan_handle)",
+			"            WHERE attribute = N'dbid'",
+			"        ) dmpa",
+			"    GROUP BY dmpa.DatabaseID",
+			")",
+			"SELECT [Database],",
+			"    [CPUTimeAsMS],",
+			"    CAST(",
+			"        [CPUTimeAsMS] * 1.0 / SUM([CPUTimeAsMS]) OVER() * 100.0 AS DECIMAL(5, 2)",
+			"    ) AS [CPUTimeAs{96f5cbaad583fb885ff5d18ecce5734bf1e8596949521e20c290401929518f75}]",
+			"FROM CPU_Per_Db",
 			"ORDER BY [CPUTimeAsMS] DESC;"
 		],
-		"description": "description for Check Database CPU Usage"
+		"description": "MSSQL: Check Database CPU Usage"
 	},
-	"Check Query Process": {
-		"prefix": ["process", "debug", "sql"],
+	"MSSQL: Check Query Process": {
+		"prefix": [
+			"process",
+			"debug",
+			"sql"
+		],
 		"body": "SELECT * FROM sys.dm_exec_sessions WHERE status = 'running';",
-		"description": "description for Check Query Process"
+		"description": "MSSQL: Check Query Process"
 	},
-	"Case Condition": {
-		"prefix": "case",
-		"body": "AND CASE WHEN @$1 = -1 THEN @$1 ELSE [$1] END = @$1 ",
-		"description": "description for Case Condition"
-	},
-	"SQL Info": {
+	"MSSQL: SQL Info": {
 		"prefix": "info",
 		"body": [
 			"SELECT *",
 			"FROM information_schema.columns",
 			"WHERE 1=1;"
 		],
-		"description": "description for SQL Info"
+		"description": "MSSQL: SQL Info"
 	},
-	"Generate CSV Header": {
-		"prefix": ["csv", "info"],
+	"MSSQL: Generate CSV Header": {
+		"prefix": [
+			"csv",
+			"info"
+		],
 		"body": [
 			"-- Generate Headers",
 			"DECLARE @colname VARCHAR(max)",
@@ -336,5 +313,393 @@
 			"SELECT @colname;"
 		],
 		"description": "description for SQL Headers"
+	},
+	"MSSQL: Sample Table": {
+		"prefix": "sample_tbl",
+		"body": [
+			"CREATE TABLE TSample(",
+			"    SampleId INT IDENTITY(1,1) NOT NULL,",
+			"    Title VARCHAR,",
+			"    Description NVARCHAR(max),",
+			"    Price DECIMAL(10, 6),",
+			"    Quantity INT,",
+			"    CreatedBy NVARCHAR(max),",
+			"    CreatedAt DATETIME,",
+			"    CONSTRAINT TSample_pk PRIMARY KEY (SampleId)",
+			");"
+		],
+		"description": "MSSQL: Sample Table"
+	},
+	"Postgres: Sample Table": {
+		"prefix": "sample_tbl",
+		"body": [
+			"CREATE TABLE TSample (",
+			"    SampleId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,",
+			"    Title VARCHAR,",
+			"    Description VARCHAR,",
+			"    Price DECIMAL(10, 6),",
+			"    Quantity INT,",
+			"    CreatedBy VARCHAR,",
+			"    CreatedAt TIMESTAMP",
+			");"
+		],
+		"description": "Postgres: Sample Table"
+	},
+	"Postgres: Create Table": {
+		"prefix": "tbl",
+		"body": [
+			"CREATE TABLE ${tblName} (",
+			"    ${Id} INT PRIMARY KEY,",
+			");"
+		],
+		"description": "Postgres: SQL"
+	},
+	"Postgres: Select Insert Temp": {
+		"prefix": "temp",
+		"body": [
+			"CREATE TEMP TABLE ${tmp_tbl_name} AS",
+			"SELECT * FROM ${table_name}"
+		],
+		"description": "Postgres: Select Insert Temp"
+	},
+	"Postgres: Stored Procedure": {
+		"prefix": "store_procedure",
+		"body": [
+			"CREATE OR REPLACE PROCEDURE ${1:procedure_name}(",
+			")",
+			"AS $$",
+			"BEGIN",
+			"-- CALL ${1:procedure_name}();",
+			"END;",
+			"$$ LANGUAGE plpgsql;"
+		],
+		"description": "Postgres: Store Procedure"
+	},
+	"Commit Transaction": {
+		"prefix": "commit",
+		"body": [
+			"COMMIT TRANSACTION;"
+		],
+		"description": "Commit Transaction"
+	},
+	"Rollback Transaction": {
+		"prefix": "rollback",
+		"body": [
+			"ROLLBACK;"
+		],
+		"description": "Rollback Transaction"
+	},
+	"Postgres: Temp Function": {
+		"prefix": "function",
+		"body": [
+			"DO \\$func$",
+			"DECLARE ",
+			"BEGIN ",
+			"END;",
+			"\\$func$ LANGUAGE plpgsql;"
+		],
+		"description": "Postgres: Temp Function"
+	},
+	"Postgres: Create View": {
+		"prefix": "view",
+		"body": [
+			"CREATE OR REPLACE VIEW ${view_name}",
+			"AS",
+			"SELECT * ",
+			"FROM ${table_name}",
+			"WHERE 1=1;"
+		],
+		"description": "Postgres: Create View"
+	},
+	"Postgres: Variables": {
+		"prefix": "variables",
+		"body": [
+			"WITH ${var_obj} AS (",
+			"    SELECT '2000-08-18'::DATE AS startDT,",
+			"    NOW()::DATE AS endDt",
+			")",
+			"SELECT *",
+			"FROM ${var_obj}",
+			"WHERE 1=1"
+		],
+		"description": "Postgres: Variables"
+	},
+	"Postgres: Function": {
+		"prefix": "function",
+		"body": [
+			"CREATE OR REPLACE FUNCTION ${proc_name}()",
+			"RETURNS ${VOID}",
+			"AS \\$func$",
+			"BEGIN",
+			"    RETURN ${data_type_ii}",
+			"    -- SELECT ${proc_name}();",
+			"END;",
+			"\\$func$ LANGUAGE plpgsql;"
+		],
+		"description": "Postgres: Function"
+	},
+	"Postgres: List all Tables": {
+		"prefix": "tbl",
+		"body": [
+			"SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public';"
+		],
+		"description": "Postgres: List All Tables"
+	},
+	"Postgres: Get Table Info ": {
+		"prefix": "tblInfo",
+		"body": [
+			"SELECT column_name, data_type, character_maximum_length ",
+			"FROM information_schema.columns ",
+			"WHERE table_name = '${tblName}';"
+		],
+		"description": "Postgres: Get Table Info"
+	},
+	"Postgres: Check Dependency": {
+		"prefix": "depend",
+		"body": [
+			"CREATE OR REPLACE VIEW admin.v_view_dependency AS ",
+			"    SELECT DISTINCT srcobj.oid AS src_oid",
+			"    , srcnsp.nspname AS src_schemaname",
+			"    , srcobj.relname AS src_objectname",
+			"    , tgtobj.oid AS dependent_viewoid",
+			"    , tgtnsp.nspname AS dependant_schemaname",
+			"    , tgtobj.relname AS dependant_objectname",
+			"    FROM pg_class srcobj",
+			"    JOIN pg_depend srcdep ON srcobj.oid = srcdep.refobjid",
+			"    JOIN pg_depend tgtdep ON srcdep.objid = tgtdep.objid",
+			"    JOIN pg_class tgtobj ON tgtdep.refobjid = tgtobj.oid AND srcobj.oid <> tgtobj.oid",
+			"    LEFT JOIN pg_namespace srcnsp ON srcobj.relnamespace = srcnsp.oid",
+			"    LEFT JOIN pg_namespace tgtnsp ON tgtobj.relnamespace = tgtnsp.oid",
+			"    WHERE tgtdep.deptype = 'i'::\"char\" AND tgtobj.relkind = 'v'::\"char\";"
+		],
+		"description": "Postgres: Check Table Dependency"
+	},
+	"Postgres: List all Functions": {
+		"prefix": "function",
+		"body": [
+			"SELECT ",
+			"    n.nspname AS schema_name, p.proname AS function_name",
+			"FROM pg_proc p",
+			"JOIN pg_namespace n ON p.pronamespace = n.oid",
+			"WHERE n.nspname NOT IN ('pg_catalog', 'information_schema');"
+		],
+		"description": "Postgres: List all Functions"
+	},
+	"Postgres: Function Source Code": {
+		"prefix": "helptext",
+		"body": [
+			"SELECT pg_get_functiondef(p.oid) AS function_definition",
+			"FROM pg_proc p",
+			"JOIN pg_namespace n ON p.pronamespace = n.oid",
+			"WHERE n.nspname = 'public'",
+			"AND p.proname LIKE '${function_name}';"
+		],
+		"description": "Postgres: Function Source Code"
+	},
+	"Postgres: Sample Temp Function": {
+		"prefix": [
+			"function",
+			"temp",
+			"delete_all_function"
+		],
+		"body": [
+			"DO $$ ",
+			"DECLARE",
+			"    r RECORD;",
+			"BEGIN",
+			"    -- Loop through all user-defined functions in the 'public' schema (change schema if needed)",
+			"    FOR r IN ",
+			"        SELECT n.nspname AS schema_name, ",
+			"               p.proname AS function_name, ",
+			"               pg_catalog.pg_get_function_identity_arguments(p.oid) AS args",
+			"        FROM pg_proc p",
+			"        JOIN pg_namespace n ON p.pronamespace = n.oid",
+			"        WHERE n.nspname = 'public'  -- Specify your schema here, 'public' by default",
+			"        AND n.nspname NOT IN ('pg_catalog', 'information_schema')  -- Exclude system schemas",
+			"    LOOP",
+			"        -- Execute drop statement for each function",
+			"        EXECUTE 'DROP FUNCTION IF EXISTS ' || r.schema_name || '.' || r.function_name || '(' || r.args || ') CASCADE';",
+			"    END LOOP;",
+			"END $$;"
+		],
+		"description": "Postgres: Sample Temp Function"
+	},
+	"Postgres: Sample Table with Function": {
+		"prefix": "sample_tbl",
+		"body": [
+			"CREATE TABLE TSample (",
+			"    SampleId INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,",
+			"    Title VARCHAR,",
+			"    Description VARCHAR,",
+			"    Price DECIMAL(10,6),",
+			"    Quantity INT,",
+			"    CreatedBy VARCHAR,",
+			"    CreatedAt TIMESTAMP",
+			");",
+			"",
+			"-- Stored Procedure: Select All Record",
+			"CREATE OR REPLACE FUNCTION NSP_TSample_SelectAll(",
+			"    p_SampleId INT DEFAULT -1",
+			")",
+			"RETURNS TABLE (",
+			"    t_SampleId INT,",
+			"    t_Title VARCHAR,",
+			"    t_Description VARCHAR,",
+			"    t_Price DECIMAL(10,6),",
+			"    t_Quantity INT,",
+			"    t_CreatedBy VARCHAR,",
+			"    t_CreatedAt TIMESTAMP",
+			") ",
+			"AS \\$func$",
+			"BEGIN",
+			"    RETURN QUERY",
+			"    SELECT * ",
+			"    FROM TSample ",
+			"    WHERE 1=1",
+			"    AND CASE WHEN p_SampleId = -1 THEN p_SampleId ELSE SampleId END = p_SampleId ",
+			"    ORDER BY SampleId;",
+			"    -- SELECT * FROM NSP_TSample_SelectAll();",
+			"END;",
+			"\\$func$ LANGUAGE plpgsql;",
+			"",
+			"-- Stored Procedure: Select By Primary Key",
+			"CREATE OR REPLACE FUNCTION NSP_TSample_SelectByPk(",
+			"    p_SampleId INT DEFAULT -1",
+			")",
+			"RETURNS TABLE (",
+			"    t_SampleId INT,",
+			"    t_Title VARCHAR,",
+			"    t_Description VARCHAR,",
+			"    t_Price DECIMAL(10,6),",
+			"    t_Quantity INT,",
+			"    t_CreatedBy VARCHAR,",
+			"    t_CreatedAt TIMESTAMP",
+			") ",
+			"AS \\$func$",
+			"BEGIN",
+			"    RETURN QUERY",
+			"    SELECT * ",
+			"    FROM TSample ",
+			"    WHERE SampleId = p_SampleId;",
+			"    -- SELECT * FROM NSP_TSample_SelectByPk();",
+			"END;",
+			"\\$func$ LANGUAGE plpgsql;",
+			"",
+			"-- Stored Procedure: Select For DropDown",
+			"CREATE OR REPLACE FUNCTION NSP_TSample_SelectDropDown(",
+			"    p_SampleId INT,",
+			"    p_SelectedAll INT DEFAULT 0",
+			")",
+			"RETURNS TABLE (",
+			"    t_ValueField INT,",
+			"    t_TextField VARCHAR",
+			")",
+			"AS \\$func$",
+			"BEGIN",
+			"    CREATE TEMP TABLE NewList (",
+			"        ValueField INT,",
+			"        TextField VARCHAR",
+			"    ) ON COMMIT DROP;",
+			"",
+			"    IF p_SelectedAll = -1 THEN",
+			"        INSERT INTO NewList(ValueField, TextField)",
+			"        VALUES (-1, 'Selected All');",
+			"    END IF;",
+			"",
+			"    INSERT INTO NewList",
+			"    SELECT SampleId, Title",
+			"    FROM TSample",
+			"    WHERE 1=1",
+			"    AND CASE WHEN p_SampleId = -1 THEN p_SampleId ELSE SampleId END = p_SampleId ",
+			"    ORDER BY Title;",
+			"",
+			"    RETURN QUERY",
+			"    SELECT * ",
+			"    FROM NewList",
+			"    WHERE 1=1;",
+			"    -- SELECT * FROM NSP_TSample_SelectDropDown();",
+			"END;",
+			"\\$func$ LANGUAGE plpgsql;",
+			"",
+			"-- Stored Procedure: Insert New Record",
+			"CREATE OR REPLACE FUNCTION NSP_TSample_Insert(",
+			"    p_Title VARCHAR,",
+			"    p_Description VARCHAR,",
+			"    p_Price DECIMAL(10,6),",
+			"    p_Quantity INT,",
+			"    p_CreatedBy VARCHAR,",
+			"    p_CreatedAt TIMESTAMP",
+			")",
+			"RETURNS VOID",
+			"AS \\$func$",
+			"BEGIN",
+			"    INSERT INTO TSample (",
+			"        Title,",
+			"        Description,",
+			"        Price,",
+			"        Quantity,",
+			"        CreatedBy,",
+			"        CreatedAt",
+			"    )",
+			"    VALUES (",
+			"        p_Title,",
+			"        p_Description,",
+			"        p_Price,",
+			"        p_Quantity,",
+			"        p_CreatedBy,",
+			"        p_CreatedAt",
+			"    );",
+			"    -- SELECT NSP_TSample_Insert();",
+			"END;",
+			"\\$func$ LANGUAGE plpgsql;",
+			"",
+			"-- Stored Procedure: Update Existing Record",
+			"CREATE OR REPLACE FUNCTION NSP_TSample_Update(",
+			"    p_SampleId INT,",
+			"    p_Title VARCHAR,",
+			"    p_Description VARCHAR,",
+			"    p_Price DECIMAL(10,6),",
+			"    p_Quantity INT,",
+			"    p_CreatedBy VARCHAR,",
+			"    p_CreatedAt TIMESTAMP",
+			")",
+			"RETURNS VOID",
+			"AS \\$func$",
+			"BEGIN",
+			"    UPDATE TSample",
+			"    SET ",
+			"        Title = p_Title,",
+			"        Description = p_Description,",
+			"        Price = p_Price,",
+			"        Quantity = p_Quantity,",
+			"        CreatedBy = p_CreatedBy,",
+			"        CreatedAt = p_CreatedAt",
+			"    WHERE 1=1",
+			"    AND SampleId = p_SampleId;",
+			"    -- SELECT NSP_TSample_Update();",
+			"END;",
+			"\\$func$ LANGUAGE plpgsql;",
+			"",
+			"-- Stored Procedure: Delete Existing Record",
+			"CREATE OR REPLACE FUNCTION NSP_TSample_Delete(",
+			"    p_SampleId INT",
+			")",
+			"RETURNS VOID",
+			"AS \\$func$",
+			"BEGIN",
+			"    DELETE FROM TSample",
+			"    WHERE 1=1",
+			"    AND SampleId = p_SampleId;",
+			"    -- SELECT NSP_TSample_Delete();",
+			"END;",
+			"\\$func$ LANGUAGE plpgsql;",
+			"",
+			"SELECT NSP_TSample_Insert('John Ballard', 'Excepteur eiusmod duis deserunt sit minim enim excepteur.', 69, 201, 'Admin', NOW()::TIMESTAMP);",
+			"SELECT NSP_TSample_Insert('Connor Bowers', 'Non enim sit ex fugiat velit in dolor.', 47, 967, 'Admin', NOW()::TIMESTAMP);",
+			"SELECT NSP_TSample_Insert('Connor Bowers', 'Non enim sit ex fugiat velit in dolor.', 47, 967, 'Admin', NOW()::TIMESTAMP);",
+			"SELECT NSP_TSample_Insert('Joshua Green', 'Sit incididunt reprehenderit anim irure est incididunt quis ipsum elit et minim dolor.', 51, 509, 'Admin', NOW()::TIMESTAMP);",
+			"SELECT NSP_TSample_Insert('Ricky James', 'Ut occaecat sit deserunt minim nulla exercitation.', 43, 74, 'Admin', NOW()::TIMESTAMP);"
+		],
+		"description": "Postgres: Sample Table with Function"
 	}
 }
