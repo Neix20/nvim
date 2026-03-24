@@ -19,6 +19,6 @@ return {
         oil.open(vim.fn.getcwd())
       end
     end
-    vim.keymap.set("n", "<leader>e", open_oil_cwd, { desc = "Open oil" })
+    vim.keymap.set("n", "<leader>o", open_oil_cwd, { desc = "Open oil" })
   end,
 }
